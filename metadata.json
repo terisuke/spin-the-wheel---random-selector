@@ -1,0 +1,5 @@
+{
+  "name": "Spin the Wheel - Random Selector",
+  "description": "An interactive roulette wheel to randomly select an item from a user-defined list. Add your options, spin the wheel, and see what fate decides!",
+  "requestFramePermissions": []
+}
