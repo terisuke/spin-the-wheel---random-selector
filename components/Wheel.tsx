@@ -23,7 +23,8 @@ const Wheel: React.FC<WheelProps> = ({ topics, rotation, onTransitionEnd }) => {
     return `${color} ${startAngle}deg ${endAngle}deg`;
   });
   
-  const conicGradient = numTopics > 0 ? `conic-gradient(${gradientParts.join(', ')})` : 'conic-gradient(#6b7280 0deg 360deg)';
+  // Rotate the entire gradient so first segment starts at top
+  const conicGradient = numTopics > 0 ? `conic-gradient(from -90deg, ${gradientParts.join(', ')})` : 'conic-gradient(#6b7280 0deg 360deg)';
   
   return (
     <div 
@@ -38,19 +39,23 @@ const Wheel: React.FC<WheelProps> = ({ topics, rotation, onTransitionEnd }) => {
           transition: 'transform 6000ms cubic-bezier(0.2, 0.8, 0.2, 1)',
         }}
       >
-        {numTopics > 0 && topics.map((topic, index) => {
-          const angle = segmentDegrees * index + segmentDegrees / 2;
+        {numTopics > 0 && topics.map((_, index) => {
+          // Place numbers at the center of each segment, accounting for the -90deg rotation
+          const angle = segmentDegrees * index + segmentDegrees / 2 - 90;
           return (
             <div
               key={index}
-              className="absolute w-full h-full"
+              className="absolute w-full h-full flex items-center justify-center"
               style={{ transform: `rotate(${angle}deg)` }}
             >
               <span
-                className="absolute left-[55%] top-1/2 -translate-y-1/2 origin-left text-white font-semibold text-sm md:text-base transform"
-                style={{ transform: `rotate(-90deg) ` }}
+                className="absolute text-white font-bold text-2xl md:text-3xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                style={{ 
+                  top: '20%',
+                  transform: 'translateY(-50%)'
+                }}
               >
-                {topic.length > 15 ? `${topic.substring(0, 13)}...` : topic}
+                {index + 1}
               </span>
             </div>
           );

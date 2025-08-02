@@ -36,10 +36,8 @@ const App: React.FC = () => {
     setSelectedTopicIndex(randomIndex);
     
     const segmentAngle = 360 / topics.length;
-    // Add a random offset to not always land in the middle
     const randomOffset = (Math.random() * 0.8 - 0.4) * segmentAngle;
-    // Calculate the rotation to align the middle of the winning segment with the pointer (at 270deg)
-    const targetRotation = 270 - (randomIndex * segmentAngle + segmentAngle / 2 + randomOffset);
+    const targetRotation = 90 - (randomIndex * segmentAngle + segmentAngle / 2 + randomOffset);
 
     // Add multiple full spins for visual effect
     const fullSpins = 360 * (5 + Math.floor(Math.random() * 4)); 
@@ -81,7 +79,12 @@ const App: React.FC = () => {
         <div className="h-64 overflow-y-auto pr-2">
           {topics.map((topic, index) => (
             <div key={index} className="flex items-center justify-between bg-gray-700 p-3 rounded-lg mb-2 animate-fade-in">
-              <span className="truncate pr-2">{topic}</span>
+              <div className="flex items-center flex-1">
+                <span className="bg-cyan-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-3 flex-shrink-0">
+                  {index + 1}
+                </span>
+                <span className="truncate pr-2">{topic}</span>
+              </div>
               <button onClick={() => handleRemoveTopic(index)} className="text-red-400 hover:text-red-500 transition-colors duration-200">
                 <RemoveIcon />
               </button>
